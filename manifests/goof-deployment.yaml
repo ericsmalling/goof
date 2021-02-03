@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: goof
+  annotations:
+    orgs.k8s.snyk.io/v1: 399f1fbb-063c-4f09-aee6-815965ccae91
 spec:
   replicas: 1
   selector:
