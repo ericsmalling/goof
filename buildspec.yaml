@@ -1,0 +1,42 @@
+version: 0.2
+env:
+  parameter-store:
+    SNYK_TOKEN: "snykAuthToken" #This parameter has to be created beforehand since SecureString type is not supported in CFN
+    SNYK_ORG: "snykOrg"
+phases:
+  install:
+    runtime-versions:
+      docker: 19
+    commands:
+      - echo 'installing Snyk'
+      - npm install -g snyk
+  pre_build:
+    commands:
+      - echo 'Logging in to Amazone ECR...'
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - REPOSITORY_URI=$(aws ecr describe-repositories --repository-name $IMAGE_REPO --query=repositories[0].repositoryUri --output=text)
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - echo 'authorizing with Snyk'
+      - snyk auth $SNYK_TOKEN
+  build:
+    commands:
+      - echo 'Starting app build and scan'
+      - npm install
+      - snyk monitor --org=$SNYK_ORG
+      - echo 'Starting image build and scan'
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - snyk container monitor $REPOSITORY_URI:latest --file=Dockerfile --org=$SNYK_ORG
+  post_build:
+    commands:
+      - echo "Build completed on $(date)"
+      - echo "Pushing the Docker images..."
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo "Writing image definitions file..."
+      - echo Source DIR ${CODEBUILD_SRC_DIR}
+      - printf '[{"name":"snyk-goof","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > ${CODEBUILD_SRC_DIR}/imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json
+
