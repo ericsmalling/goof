@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: goof-demo2
+  name: goof-demo-auto
   annotations:
     orgs.k8s.snyk.io/v1: 399f1fbb-063c-4f09-aee6-815965ccae91
 spec:
@@ -33,7 +33,9 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: goof-mongo
+  name: goof-mongo-auto
+  annotations:
+    orgs.k8s.snyk.io/v1: 399f1fbb-063c-4f09-aee6-815965ccae91
 spec:
   replicas: 1
   selector:
