@@ -36,3 +36,8 @@ module "codeCommit" {
   source = "./modules/codeCommit"
   repository_name = var.scm_repository
 }
+
+module "codeBuild" {
+  source = "./modules/codeBuild"
+  bucket = var.artifact_bucket  
+}

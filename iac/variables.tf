@@ -20,9 +20,20 @@ variable "snyk_orgid" {
   type = string
   description = "The Snyk Org ID which should be used"
 
-  validation {
-    condition = can(regex("^[A-Fa-f0-9]{8}\\-[A-Fa-f0-9]{4}\\-[A-Fa-f0-9]{4}\\-[A-Fa-f0-9]{4}\\-[A-Fa-f0-9]{12}$", var.snyk_orgid))
-    error_message = "The snyk_orgid value must be in a valid format: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'."
+  # validation {
+  #   condition = can(regex("^[A-Fa-f0-9]{8}\\-[A-Fa-f0-9]{4}\\-[A-Fa-f0-9]{4}\\-[A-Fa-f0-9]{4}\\-[A-Fa-f0-9]{12}$", var.snyk_orgid))
+  #   error_message = "The snyk_orgid value must be in a valid format: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'."
+  # }
+}
+
+variable "artifact_bucket" {
+  type = string
+  default = "snyk-goof-build-artifacts"
+  description = "The S3 bucket to store codeBuild artifacts in."
+    validation {
+      condition = length(var.artifact_bucket) > 0
+      error_message = "An S3 bucket fore codeBuild artifacts is required."
   }
+
 }
 
