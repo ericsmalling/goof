@@ -6,8 +6,12 @@ variable "region" {
 
 variable "scm_repository_owner" {
   type        = string
-  default     = "ericsmalling"
   description = "The SCM repository account owner."
+
+  validation {
+    condition = length(var.scm_repository_owner) > 0
+    error_message = "An SCM repo owner is required."
+  }
 }
 
 variable "scm_repository_repo" {
@@ -24,6 +28,12 @@ variable "scm_repository_branch" {
 
 variable "github_oauth_token" {
   type = string
+  description = "A GitHub OAUTH Token must be set up and provided"
+
+  validation {
+    condition = can(regex("^[A-Fa-f0-9]{40}$", var.github_oauth_token))
+    error_message = "This does not look like proper GitHum token format (40 hex chars)."
+  }
 }
 
 variable "snyk_orgid" {
