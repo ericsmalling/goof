@@ -12,7 +12,7 @@ phases:
       - npm install -g snyk
   pre_build:
     commands:
-      - echo 'Logging in to Amazone ECR...'
+      - echo 'Logging in to Amazon ECR...'
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - REPOSITORY_URI=$(aws ecr describe-repositories --repository-name $IMAGE_REPO --query=repositories[0].repositoryUri --output=text)
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
