@@ -1,9 +1,7 @@
-FROM node:10.23.1-buster-slim
+FROM ericsmalling/custom-node:10.23.1-buster-slim
 
-RUN mkdir /usr/src/goof
 RUN mkdir /tmp/extracted_files
-COPY . /usr/src/goof
-WORKDIR /usr/src/goof
+COPY --chown=node . /usr/src/node
 
 RUN npm update
 RUN npm install
