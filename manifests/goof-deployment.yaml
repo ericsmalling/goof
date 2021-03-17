@@ -1,7 +1,8 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: goof-manual
+  name: goof
 spec:
   replicas: 1
   selector:
@@ -16,7 +17,7 @@ spec:
     spec:
       containers:
         - name: goof
-          image: 044162826130.dkr.ecr.us-west-2.amazonaws.com/synk-goof:latest
+          image: goof:latest
           resources:
             requests:
               cpu: 100m
