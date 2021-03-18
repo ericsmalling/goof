@@ -20,10 +20,6 @@ spec:
       containers:
         - name: goof
           image: goof:latest
-          securityContext:
-            capabilities:
-              drop:
-                - all
           resources:
             requests:
               cpu: 100m
