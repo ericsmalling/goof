@@ -15,15 +15,9 @@ spec:
         app: goof
         tier: frontend
     spec:
-      securityContext:
-        runAsNonRoot: true
       containers:
         - name: goof
           image: goof:latest
-          securityContext:
-            capabilities:
-              drop:
-                - all
           resources:
             requests:
               cpu: 100m
@@ -51,15 +45,8 @@ spec:
         app: goof
         tier: backend
     spec:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 999
       containers:
         - name: goof-mongo
           image: mongo
-          securityContext:
-            capabilities:
-              drop:
-                - all
           ports:
             - containerPort: 27017
