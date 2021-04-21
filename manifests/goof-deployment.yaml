@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: goof
-          image: 478468688580.dkr.ecr.us-west-2.amazonaws.com/goof
+          image: goof
           resources:
             requests:
               cpu: 100m
