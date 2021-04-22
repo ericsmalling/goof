@@ -1,5 +1,8 @@
-# FROM node:6-stretch
-FROM node:14.1.0
+FROM node:10.4.0
+
+RUN apt-get update -y && \
+    apt-get install -y imagemagick && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /usr/src/goof
 RUN mkdir /tmp/extracted_files
