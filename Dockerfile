@@ -1,4 +1,4 @@
-FROM node:10.4.0
+FROM node:10.23.1
 
 RUN apt-get update -y && \
     apt-get install -y imagemagick && \
